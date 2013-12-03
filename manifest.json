@@ -1,0 +1,11 @@
+{
+	"name": "LickOutsideScaleform",
+	"version": "1.0",
+	"manifest_version": 2,
+	"content_scripts": [
+		{
+			"matches": ["http://www.facebook.com/*", "https://www.facebook.com/*"],
+			"js": ["lick.js"]
+		}
+	]
+}
