@@ -37,6 +37,10 @@
 			[ ".tickerDialogContent", commonPlaces ],
 			// Photo popup
 			[ "#photos_snowlift", commonPlaces ],
+			// Photo tiles page
+			[ "#pagelet_timeline_medley_photos", [
+				"div.fbPhotoStarGridElement div._53k a",
+			] ],
 			// Timeline
 			[ "#pagelet_timeline_main_column", commonPlaces ],
 			[ "#pagelet_timeline_main_column", [
@@ -47,7 +51,12 @@
 				".pageFriendSummaryContainer div.friendInviteHeaderText",
 				"#pageInviteEscapeHatch h3 span",
 				"#pageInviteEscapeHatch a.PageLikeButton",
-				"#pageInviteEscapeHatch div.mtm div span"
+				"#pageInviteEscapeHatch div.mtm div span",
+				".fbTimelineUnit h3 a",
+				"#pagelet_timeline_medley_likes h3 a",
+				"#pagelet_timeline_medley_likes div._1_ca span._3sz",
+				"#pagelet_timeline_medley_likes ul.uiList label.PageLikeButton input",
+				"#pagelet_timeline_medley_likes ul.uiList label.PageLikedButton input",
 			] ],
 			// Suggestion to like your favorite pages in Pages Feed
 			[ ".megaphone_box", [ ".sourceSuggestionMegaphoneFirstHeader" ] ],
@@ -55,7 +64,7 @@
 			[ "#pagelet_vertex_header" , [
 				"table.uiGrid td._51mw a",
 				"table.uiGrid label.PageLikeButton input",
-				"table.uiGrid label.PageLikedButton input"
+				"table.uiGrid label.PageLikedButton input",
 			] ],
 			[ "#pagelet_vertex_body", [
 				"div._117 a h3",
@@ -65,7 +74,7 @@
 				"ul.uiList li span._69e label.PageLikedButton input",
 				"div._4qd a h3",
 				"div._6y9 div._4qa",
-				"div._4lv table div._4wc"
+				"div._4lv table div._4wc",
 			] ],
 			// You are posting, commeting, and liking as <your page>
 			[ ".pagesVoiceBar", [ ".pagesVoiceBarText" ] ],
@@ -76,7 +85,7 @@
 				"h4 div",
 				".uiHeaderTop a",
 				".adminPanelContentFanAcq div.mts",
-				".adminPanelContentFanAcq div.lfloat div._57vm"
+				".adminPanelContentFanAcq div.lfloat div._57vm",
 			] ],
 			// Popup when hovering name, or tooltip for X likes this
 			[ ".uiContextualLayerPositioner", [
@@ -88,12 +97,14 @@
 				"div.uiMenu a span",
 				"div.isPage a.pageLink",
 				"div._54ng a._54nc span span",
+				"div.UFILikeSentenceText span span",
+				"div.UFICommentActions a.UFILikeLink",
 			] ],
 			// "Like Pages" page
 			[ "._5l27", [
 				"div.stat_elem button.PageLikeButton",
 				"div.stat_elem div._5l2i", // X likes this
-				"div._5sun div._5suq" // Get More Likes for promoting your own page.
+				"div._5sun div._5suq", // Get More Likes for promoting your own page.
 			] ],
 			// Popup for people who like this
 			[ "._59s7", [ "div.lfloat" ] ],
