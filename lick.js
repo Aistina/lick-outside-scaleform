@@ -10,12 +10,16 @@
 			"form.commentable_item a.UFILikeLink",
 			// In news feed: X liked this
 			".userContentWrapper h5 div span",
+			".storyContent h5.uiStreamMessage",
+			".storyContent span.uiLikePageButton span.uiButtonText",
 			// On comment: thumbs with number with title: X likes this
 			"form.commentable_item a.UFICommentLikeButton",
 			// For pages etc: 900 like this
 			".subscribeOrLikeSentence span",
 			".fbPhotoSubscribeWrapper a",
-			".fbPhotoSubscribeWrapper span"
+			".fbPhotoSubscribeWrapper span",
+			// Thumb icon (has tooltip)
+			"form.commentable_item a.UFILikeThumb.UFIImageBlockImage",
 		];
 		var spots = [
 			// News feed posts
@@ -24,6 +28,7 @@
 			[ ".permalink_stream", commonPlaces ],
 			// Events
 			[ ".fbEventWall", commonPlaces ],
+			[ "#pagelet_pinned_posts", commonPlaces ],
 			// Groups
 			[ "#pagelet_group_mall", commonPlaces ],
 			// Pages Feed
@@ -81,7 +86,8 @@
 				"table tbody tr td div div",
 				"div.tooltipContent div",
 				"div.uiMenu a span",
-				"div.isPage a.pageLink"
+				"div.isPage a.pageLink",
+				"div._54ng a._54nc span span",
 			] ],
 			// "Like Pages" page
 			[ "._5l27", [
@@ -96,7 +102,19 @@
 			// Notifications
 			[ "#fbNotificationsFlyout", [ "li div._4l_v > span span" ] ],
 			// Ticker
-			[ "div.tickerActivityStories", [ "div.fbFeedTickerStory div.tickerFeedMessage" ] ]
+			[ "div.tickerActivityStories", [ "div.fbFeedTickerStory div.tickerFeedMessage" ] ],
+			// Advertise on Facebook
+			[ "#pagelet_ads_create", [ 
+				"ul li._5usz span", 
+				"div._5ikp._5k_c div._5iku",
+				"div._5ikp._5k_c div._5ikv",
+			] ],
+			[ "#adscreatorbody", [
+				"div._5g5d.NF_DESKTOP_STORY div._5pcs",
+				"div._5g5d.RHC_CLASSIC_STANDARD div.fbEmuPreview",
+				"div._5sfj table td._480u a span span",
+				"div._5sfj table td._480u > div > div > span",
+			] ],
 		];
 
 		// Config for how to listen for content changes.
