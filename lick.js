@@ -10,6 +10,8 @@
 			"form.commentable_item a.UFILikeLink",
 			// In news feed: X liked this
 			".userContentWrapper h5 div span",
+			// On comment: thumbs with number with title: X likes this
+			"form.commentable_item a.UFICommentLikeButton",
 			// For pages etc: 900 like this
 			".subscribeOrLikeSentence span",
 		];
@@ -40,11 +42,13 @@
 			[ ".megaphone_box", [ ".sourceSuggestionMegaphoneFirstHeader" ] ],
 			// Navigation on the left, "Like Pages"
 			[ "#pagesNav", [ "li.sideNavItem div.linkWrap" ] ],
-			// Popup when hovering name
+			// Popup when hovering name, or tooltip for X likes this
 			[ ".uiContextualLayerPositioner", [
 				".pageByline",
 				".uiBoxGray .PageLikeButton input",
-				"table tbody tr td div div"
+				".uiBoxGray .PageLikedButton input",
+				"table tbody tr td div div",
+				"div.tooltipContent div"
 			] ],
 			// "Like Pages" page
 			[ "._5l27", [
@@ -52,6 +56,8 @@
 				"div.stat_elem div._5l2i", // X likes this
 				"div._5sun div._5suq" // Get More Likes for promoting your own page.
 			] ],
+			// Popup for people who like this
+			[ "._59s7", [ "div.lfloat" ] ],
 			// What the hell is this called? It's on the right in the news feed, with page suggestions
 			[ "#pagelet_ego_pane", [ ".egoProfileTemplate div div", ".egoProfileTemplate div a" ] ],
 			// Notifications
@@ -81,9 +87,9 @@
 		];
 
 		// Function to start observing.
-		var observe = function(elementQuery, likeQueries) {
+		var observe = function(elementQuery, likeQueries, target) {
 			// Target to observe.
-			var target = document.querySelector(elementQuery);
+			target = target || document.querySelector(elementQuery);
 			if (!target) {
 				return;
 			}
@@ -114,12 +120,15 @@
 						}
 
 						// Like/Unlinks links have title "Like this"/"Unlike this"
-						if (hits[i].hasAttribute('title')) {
-							hits[i].setAttribute(
-								'title',
-								hits[i].getAttribute('title').replace(replacements[j][0], replacements[j][1])
-							);
-						}
+						var attributes = [ "title", "aria-label" ];
+						for (var k = attributes.length - 1; k >= 0; k--) {
+							if (hits[i].hasAttribute(attributes[k])) {
+								hits[i].setAttribute(
+									attributes[k],
+									hits[i].getAttribute(attributes[k]).replace(replacements[j][0], replacements[j][1])
+								);
+							}
+						};
 
 					};
 				};
@@ -164,13 +173,14 @@
 					// Check if this matches any of our unobserved elements
 					for (var query in observed) {
 						if (!observed[query]) {
+							var target = node;
 							if (node.webkitMatchesSelector(query) ||
-								node.querySelector(query)) {
+								(target = node.querySelector(query)) != null) {
 								// Now start observing it!
 								// Find matching thingy
 								for (var i = spots.length - 1; i >= 0; i--) {
 									if (spots[i][0] == query) {
-										observe(spots[i][0], spots[i][1]);
+										observe(spots[i][0], spots[i][1], target);
 										break;
 									}
 								};
