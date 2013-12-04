@@ -1,7 +1,7 @@
 (function (undefined) {
 	// Function that kicks everything off.
 	var startLicking = function() {
-		// Places to monitor and where to find the word "like".
+		// Places to observe and where to find the word "like".
 		var commonPlaces = [
 			// X and Y like this
 			".UFILikeSentenceText span span",
@@ -36,15 +36,23 @@
 				"#pageInviteEscapeHatch a.PageLikeButton",
 				"#pageInviteEscapeHatch div.mtm div span"
 			] ],
+			// Suggestion to like your favorite pages in Pages Feed
+			[ ".megaphone_box", [ ".sourceSuggestionMegaphoneFirstHeader" ] ],
 			// Navigation on the left, "Like Pages"
-			[ "#pagesNav", [ "li.sideNavItem div.linkWrap"] ],
+			[ "#pagesNav", [ "li.sideNavItem div.linkWrap" ] ],
 			// Popup when hovering name
 			[ ".uiContextualLayerPositioner", [
 				".pageByline",
 				".uiBoxGray .PageLikeButton input",
 				"table tbody tr td div div"
 			] ],
-			// What the hell is this called? It's on the left in the news feed, with page suggestions
+			// "Like Pages" page
+			[ "._5l27", [
+				"div.stat_elem button.PageLikeButton",
+				"div.stat_elem div._5l2i", // X likes this
+				"div._5sun div._5suq" // Get More Likes for promoting your own page.
+			] ],
+			// What the hell is this called? It's on the right in the news feed, with page suggestions
 			[ "#pagelet_ego_pane", [ ".egoProfileTemplate div div", ".egoProfileTemplate div a" ] ],
 			// Notifications
 			[ "#fbNotificationsFlyout", [ "li div._4l_v > span span" ] ],
@@ -64,7 +72,7 @@
 			observed[spots[i][0]] = false;
 		};
 
-		// How to replace text
+		// How to replace text.
 		var replacements = [
 			[ /\b([Ll])ike(s)?\b/, "$1ick$2" ],
 			[ /\b([Ll])iked\b/, "$1icked" ],
@@ -72,7 +80,7 @@
 			[ /^Like\b/, "Lick" ]
 		];
 
-		// Function to start observing
+		// Function to start observing.
 		var observe = function(elementQuery, likeQueries) {
 			// Target to observe.
 			var target = document.querySelector(elementQuery);
@@ -90,7 +98,7 @@
 					return;
 				}
 
-				// Search for all the places that might contain the proper words
+				// Search for all the places that might contain the proper words.
 				var hits = element.querySelectorAll(likeQueries.join(', '));
 				for (var i = hits.length - 1; i >= 0; i--) {
 					for (var j = replacements.length - 1; j >= 0; j--) {
@@ -156,7 +164,8 @@
 					// Check if this matches any of our unobserved elements
 					for (var query in observed) {
 						if (!observed[query]) {
-							if (node.webkitMatchesSelector(query)) {
+							if (node.webkitMatchesSelector(query) ||
+								node.querySelector(query)) {
 								// Now start observing it!
 								// Find matching thingy
 								for (var i = spots.length - 1; i >= 0; i--) {
