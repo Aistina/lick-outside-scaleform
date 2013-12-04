@@ -27,22 +27,27 @@
 			// Timeline
 			[ "#pagelet_timeline_main_column", commonPlaces ],
 			[ "#pagelet_timeline_main_column", [
-				"#fbTimelineHeadline h2 div div", 
+				"#fbTimelineHeadline h2 div div",
 				"#pagelet_timeline_page_actions .PageLikeButton input",
 				"#fbTimelineNavTopRow .likes.tile div.title span.text",
 				".pageFriendSummaryContainer div.headerText span",
 				".pageFriendSummaryContainer div.friendInviteHeaderText",
+				"#pageInviteEscapeHatch h3 span",
+				"#pageInviteEscapeHatch a.PageLikeButton",
+				"#pageInviteEscapeHatch div.mtm div span"
 			] ],
 			// Navigation on the left, "Like Pages"
 			[ "#pagesNav", [ "li.sideNavItem div.linkWrap"] ],
 			// Popup when hovering name
-			[ ".uiContextualLayerPositioner", [ 
-				".pageByline", 
+			[ ".uiContextualLayerPositioner", [
+				".pageByline",
 				".uiBoxGray .PageLikeButton input",
 				"table tbody tr td div div"
 			] ],
 			// What the hell is this called? It's on the left in the news feed, with page suggestions
 			[ "#pagelet_ego_pane", [ ".egoProfileTemplate div div", ".egoProfileTemplate div a" ] ],
+			// Notifications
+			[ "#fbNotificationsFlyout", [ "li div._4l_v > span span" ] ],
 			// Ticker
 			[ "div.tickerActivityStories", [ "div.fbFeedTickerStory div.tickerFeedMessage" ] ]
 		];
