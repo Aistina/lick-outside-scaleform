@@ -2,7 +2,7 @@
 	"name": "Lick Facebook",
 	"description": "Replaces \"Like\" with \"Lick\" on Facebook. Note: Only works if Facebook is set to English.",
 	"author": "Maarten Staa",
-	"version": "1.0",
+	"version": "1.1",
 	"manifest_version": 2,
 	"icons": {
 		"16": "icon16.png",
