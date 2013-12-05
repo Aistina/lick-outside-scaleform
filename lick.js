@@ -8,6 +8,8 @@
 			// Like links
 			".fbTimelineFeedbackActions a.UFILikeLink",
 			"form.commentable_item a.UFILikeLink",
+			".ogAggregationSubstoryContent a.UFILikeLink",
+			".ogAggregationSubstoryContent .uiLikePage span.action_elem",
 			// In news feed: X liked this
 			".userContentWrapper h5 div span",
 			".storyContent h5.uiStreamMessage",
@@ -20,6 +22,11 @@
 			".fbPhotoSubscribeWrapper span",
 			// Thumb icon (has tooltip)
 			"form.commentable_item a.UFILikeThumb.UFIImageBlockImage",
+			// Card for when someone liked a page
+			".uiStreamAttachments .PageLikeButton .uiButtonText",
+			".uiStreamAttachments .PageLikedButton .uiButtonText",
+			".uiStreamAttachments ._508a",
+			".uiStreamAttachments ._4q7", // Seen @ New Music From Artists You May Like
 		];
 		var spots = [
 			// News feed posts
@@ -31,16 +38,14 @@
 			[ "#pagelet_pinned_posts", commonPlaces ],
 			// Groups
 			[ "#pagelet_group_mall", commonPlaces ],
+			// Music page
+			[ "#music_friends", commonPlaces ],
 			// Pages Feed
 			[ "#pagelet_home_stream", commonPlaces ],
 			// Posts in tooltip from ticker
 			[ ".tickerDialogContent", commonPlaces ],
 			// Photo popup
 			[ "#photos_snowlift", commonPlaces ],
-			// Photo tiles page
-			[ "#pagelet_timeline_medley_photos", [
-				"div.fbPhotoStarGridElement div._53k a",
-			] ],
 			// Timeline
 			[ "#pagelet_timeline_main_column", commonPlaces ],
 			[ "#pagelet_timeline_main_column", [
@@ -53,10 +58,14 @@
 				"#pageInviteEscapeHatch a.PageLikeButton",
 				"#pageInviteEscapeHatch div.mtm div span",
 				".fbTimelineUnit h3 a",
-				"#pagelet_timeline_medley_likes h3 a",
-				"#pagelet_timeline_medley_likes div._1_ca span._3sz",
-				"#pagelet_timeline_medley_likes ul.uiList label.PageLikeButton input",
-				"#pagelet_timeline_medley_likes ul.uiList label.PageLikedButton input",
+				"#timeline-medley h3 a",
+				"#timeline-medley div.fbPhotoStarGridElement div._53k a",
+				"#timeline-medley a.uiLinkLightBlue",
+				"#timeline-medley div._1_ca span._3sz",
+				"#timeline-medley ul.uiList label.PageLikeButton input",
+				"#timeline-medley ul.uiList label.PageLikedButton input",
+				"#timeline-medley a._42ft",
+				"#timeline-medley div._54kt",
 			] ],
 			// Suggestion to like your favorite pages in Pages Feed
 			[ ".megaphone_box", [ ".sourceSuggestionMegaphoneFirstHeader" ] ],
@@ -134,12 +143,6 @@
 			"subtree": true
 		};
 
-		// Set that none of the elements are currently being observed.
-		var observed = { };
-		for (var i = spots.length - 1; i >= 0; i--) {
-			observed[spots[i][0]] = false;
-		};
-
 		// How to replace text.
 		var replacements = [
 			[ /\b([Ll])ike(s)?\b/, "$1ick$2" ],
@@ -157,9 +160,6 @@
 				return;
 			}
 
-			// Set that we are observing this element.
-			// observed[elementQuery] = true;
-
 			// Function that does the actual replace.
 			var replace = function(element) {
 				// Safety net.
@@ -171,18 +171,18 @@
 				var hits = element.querySelectorAll(likeQueries.join(', '));
 				for (var i = hits.length - 1; i >= 0; i--) {
 					for (var j = replacements.length - 1; j >= 0; j--) {
-						// If it's an input, check the value
+						// If it's an input, check the value.
 						if (hits[i].tagName && hits[i].tagName.toLowerCase() == 'input' && hits[i].hasAttribute('value')) {
 							hits[i].setAttribute(
 								'value',
 								hits[i].getAttribute('value').replace(replacements[j][0], replacements[j][1])
 							);
 						} else {
-							// Otherwise, the content
+							// Otherwise, the content.
 							hits[i].innerHTML = hits[i].innerHTML.replace(replacements[j][0], replacements[j][1]);
 						}
 
-						// Like/Unlinks links have title "Like this"/"Unlike this"
+						// Like/Unlinks links have title "Like this"/"Unlike this".
 						var attributes = [ "title", "aria-label" ];
 						for (var k = attributes.length - 1; k >= 0; k--) {
 							if (hits[i].hasAttribute(attributes[k])) {
@@ -191,13 +191,12 @@
 									hits[i].getAttribute(attributes[k]).replace(replacements[j][0], replacements[j][1])
 								);
 							}
-						};
-
-					};
-				};
+						}
+					}
+				}
 			};
 
-			// Create an observer
+			// Create an observer.
 			var observer = new MutationObserver(function(mutations) {
 				mutations.forEach(function(mutation) {
 					for (var index = 0; index < mutation.addedNodes.length; ++index) {
@@ -208,12 +207,20 @@
 				});
 			});
 
-			// Configure and start observing
+			// Configure and start observing.
 			console.log('Started licking', elementQuery)
 			observer.observe(target, config);
 
-			// And do an initial replace
+			// And do an initial replace.
 			replace(target);
+
+			// When the element is removed from the DOM, we can stop the observer.
+			target.addEventListener('DOMNodeRemoved', function(mutationEvent) {
+				if (mutationEvent.relatedNode == target) {
+					console.log('Stopped licking', elementQuery);
+					observer.disconnect();
+				}
+			})
 		};
 
 		// For each spot where the word "like" occurs.
@@ -231,23 +238,16 @@
 						continue;
 					}
 
-					// console.log(node);
-
 					// Check if this matches any of our unobserved elements
-					for (var query in observed) {
-						if (!observed[query]) {
-							var target = node;
-							if (node.webkitMatchesSelector(query) ||
-								(target = node.querySelector(query)) != null) {
-								// Now start observing it!
-								// Find matching thingy
-								for (var i = spots.length - 1; i >= 0; i--) {
-									if (spots[i][0] == query) {
-										observe(spots[i][0], spots[i][1], target);
-										break;
-									}
-								};
-							}
+					for (var i = spots.length - 1; i >= 0; i--) {
+						var target = node;
+						if (node.webkitMatchesSelector(spots[i][0]) ||
+							(target = node.querySelector(spots[i][0])) != null
+						) {
+							// Now start observing it!
+							// Find matching thingy
+							observe(spots[i][0], spots[i][1], target);
+							// break;
 						}
 					}
 				}
@@ -261,13 +261,4 @@
 
 	// Do it, do it nao.
 	startLicking();
-
-	// In Facebook, when you switch pages (e.g. news feed -> messages), the page doesn't reload, only the
-	// content is replaced. So listen for that and then start licking again.
-	var contentElement = document.querySelector('#content');
-	var contentGlobalObserver = new MutationObserver(startLicking);
-	contentGlobalObserver.observe(contentElement, {
-		"childList": true,
-		"subtree": false
-	});
 })();
