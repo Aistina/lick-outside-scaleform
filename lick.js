@@ -6,14 +6,13 @@
 			// X and Y like this
 			".UFILikeSentenceText span span",
 			// Like links
-			".fbTimelineFeedbackActions a.UFILikeLink",
-			"form.commentable_item a.UFILikeLink",
-			".ogAggregationSubstoryContent a.UFILikeLink",
+			"a.UFILikeLink",
 			".ogAggregationSubstoryContent .uiLikePage span.action_elem",
 			// In news feed: X liked this
 			".userContentWrapper h5 div span",
 			".storyContent h5.uiStreamMessage",
 			".storyContent span.uiLikePageButton span.uiButtonText",
+			"._5pcs ._5pax .fsl",
 			// On comment: thumbs with number with title: X likes this
 			"form.commentable_item a.UFICommentLikeButton",
 			// For pages etc: 900 like this
@@ -23,9 +22,9 @@
 			// Thumb icon (has tooltip)
 			"form.commentable_item a.UFILikeThumb.UFIImageBlockImage",
 			// Card for when someone liked a page
-			".uiStreamAttachments .PageLikeButton .uiButtonText",
-			".uiStreamAttachments .PageLikedButton .uiButtonText",
-			".uiStreamAttachments ._508a",
+			".PageLikeButton .uiButtonText",
+			".PageLikedButton .uiButtonText",
+			"._508a",
 			".uiStreamAttachments ._4q7", // Seen @ New Music From Artists You May Like
 		];
 		var spots = [
@@ -118,14 +117,19 @@
 			// Popup for people who like this
 			[ "._59s7", [ "div.lfloat" ] ],
 			// What the hell is this called? It's on the right in the news feed, with page suggestions
-			[ "#pagelet_ego_pane", [ ".egoProfileTemplate div div", ".egoProfileTemplate div a" ] ],
+			[ "#pagelet_ego_pane", [
+				".egoProfileTemplate div div",
+				".egoProfileTemplate div a",
+				".ego_unit div.ego_action a.uiIconText",
+				".ego_unit div._5h85",
+			] ],
 			// Notifications
 			[ "#fbNotificationsFlyout", [ "li div._4l_v > span span" ] ],
 			// Ticker
-			[ "div.tickerActivityStories", [ "div.fbFeedTickerStory div.tickerFeedMessage" ] ],
+			[ "#pagelet_ticker", [ "div.fbFeedTickerStory div.tickerFeedMessage" ] ],
 			// Advertise on Facebook
-			[ "#pagelet_ads_create", [ 
-				"ul li._5usz span", 
+			[ "#pagelet_ads_create", [
+				"ul li._5usz span",
 				"div._5ikp._5k_c div._5iku",
 				"div._5ikp._5k_c div._5ikv",
 			] ],
